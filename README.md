@@ -44,7 +44,7 @@ GENERIC_TIMEZONE: fuso horário (ex: America/Sao_Paulo)
 
 Edite o arquivo data/meus-links.txt e adicione as URLs que deseja monitorar (uma URL por linha).
 
-⚙️ Configurando o n8n
+##⚙️ Configurando o n8n
 Inicie os serviços:
 
 bash
@@ -66,7 +66,8 @@ Selecione workflows/check-links-telegram.json
 
 Salve e ative o workflow.
 
-📝 Estrutura do Projeto
+##📝 Estrutura do Projeto
+
 pgsql
 Copiar código
 .
@@ -76,7 +77,8 @@ Copiar código
 │   └── meus-links.txt              # Arquivo com as URLs a monitorar
 └── workflows/
     └── check-links-telegram.json   # Workflow exportado do n8n
-📊 Uso
+    
+##📊 Uso
 O workflow é executado a cada minuto (configurado no node Cron).
 
 Se algum link retornar statusCode diferente de 200, uma mensagem de alerta é enviada para o chat do Telegram configurado.
@@ -86,7 +88,8 @@ Logs podem ser visualizados com:
 bash
 Copiar código
 docker-compose logs -f n8n
-🌐 Hospedagem Recomendada
+
+##🌐 Hospedagem Recomendada
 Para um ambiente de produção mais estável e seguro, recomendo hospedar o n8n em um VPS.
 
 O Código Fonte TV sugere a Hostinger, que possui planos de VPS já com n8n pré-instalado.
