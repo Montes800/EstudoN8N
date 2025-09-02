@@ -48,4 +48,5 @@ Durante o estudo foram abordados:
 │   └── meus-links.txt                    # Arquivo com as URLs a monitorar
 
 └── workflows/
-    └── check-links-telegram.json         # Workflow exportado do n8n
+
+   └── check-links-telegram.json         # Workflow exportado do n8n
