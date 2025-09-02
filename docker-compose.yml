@@ -1,22 +1,26 @@
-version: "3"
+version: "3" # Versão do Docker Compose que está sendo usada
 
-services:
-  n8n:
-    image: docker.n8n.io/n8nio/n8n
-    container_name: n8n
-    environment:
-      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=https
-      - NODE_ENV=production
-      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
-      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+services: # Aqui começam os serviços que vão ser criados
+  n8n: # Nome do serviço (nesse caso, só tem o n8n)
+    image: docker.n8n.io/n8nio/n8n # Imagem oficial do n8n que vai ser usada
+    container_name: n8n # Nome que o container vai ter (facilita para identificar)
+    
+    environment: # Variáveis de ambiente que configuram o n8n
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME} # Define o host (subdomínio + domínio)
+      - N8N_PORT=5678 # Porta que o n8n vai rodar dentro do container
+      - N8N_PROTOCOL=https # Protocolo (https recomendado em produção)
+      - NODE_ENV=production # Define o ambiente como produção
+      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/ # URL base para os webhooks do n8n
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE} # Define o fuso horário (vem do .env)
+
     ports:
-      - "5678:5678"
-    volumes:
-      - ./data:/home/data
-      - n8n_data:/home/node/.n8n
-    restart: unless-stopped
+      - "5678:5678" # Expõe a porta 5678 do container na máquina host
+
+    volumes: # Volumes para persistir dados e compartilhar arquivos
+      - ./data:/home/data # Pasta local "data" será acessível dentro do container em /home/data
+      - n8n_data:/home/node/.n8n # Volume nomeado que guarda as configs e workflows do n8n
+
+    restart: unless-stopped # Faz o container reiniciar automaticamente, exceto se for parado manualmente
 
 volumes:
-  n8n_data:
+  n8n_data: # Declaração do volume persistente (para salvar dados do n8n mesmo se o container for removido)

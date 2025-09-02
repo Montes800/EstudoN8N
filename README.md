@@ -1,15 +1,26 @@
 # Monitoramento de Links com n8n e Telegram
 
-Este repositório contém um tutorial para o canal Código Fonte TV que mostra como criar uma automação com n8n para verificar periodicamente o status de uma lista de URLs e enviar alertas via Telegram quando algum link estiver fora do ar.
+Este projeto foi desenvolvido seguindo o tutorial do **canal Código Fonte TV**, onde aprendi a utilizar o **n8n** para criar uma automação que verifica periodicamente o status de uma lista de URLs e envia alertas via **Telegram** sempre que algum link estiver fora do ar.  
+
+Durante o processo foi ensinado:  
+- Como configurar o **Docker** e o **Docker Compose** para rodar o n8n.  
+- Como preparar variáveis de ambiente em um arquivo `.env`.  
+- Como estruturar um workflow no n8n utilizando **nós (nodes)** como Cron, HTTP Request, If e integração com o **Telegram**.  
+- Como persistir dados e configurar volumes no Docker.  
+- Como importar e ativar workflows no painel do n8n.  
 
 **Assista ao vídeo tutorial:** https://youtu.be/UDWEAMwS7rg
 
+---
+
 ## 🔧 Pré-requisitos
 
-- Docker
-- Docker Compose
-- Conta e Bot no Telegram (Token)
-- Chat ID do Telegram para receber alertas
+- Docker  
+- Docker Compose  
+- Conta e Bot no Telegram (Token)  
+- Chat ID do Telegram para receber alertas  
+
+---
 
 ## 🚀 Instalação
 
@@ -18,47 +29,46 @@ Este repositório contém um tutorial para o canal Código Fonte TV que mostra c
    ```bash
    git clone <URL do repositório>
    cd <nome-do-diretório>
-   ```
+Copie o arquivo de exemplo .env e preencha as variáveis:
 
-2. Copie o arquivo de exemplo `.env` e preencha as variáveis:
+bash
+Copiar código
+cp sample.env .env
+Edite o .env com:
 
-   ```bash
-   cp sample.env .env
-   ```
+DOMAIN_NAME: seu domínio (ex: codigofonte.tv)
 
-   Edite o `.env` com:
+SUBDOMAIN: subdomínio para acesso ao n8n (ex: n8n)
 
-   - `DOMAIN_NAME`: seu domínio (ex: codigofonte.tv)
-   - `SUBDOMAIN`: subdomínio para acesso ao n8n (ex: n8n)
-   - `GENERIC_TIMEZONE`: fuso horário (ex: America/Sao_Paulo)
+GENERIC_TIMEZONE: fuso horário (ex: America/Sao_Paulo)
 
-3. Edite o arquivo `data/meus-links.txt` e adicione as URLs que deseja monitorar (uma URL por linha).
+Edite o arquivo data/meus-links.txt e adicione as URLs que deseja monitorar (uma URL por linha).
 
-## ⚙️ Configurando o n8n
+⚙️ Configurando o n8n
+Inicie os serviços:
 
-1. Inicie os serviços:
+bash
+Copiar código
+docker-compose up -d
+Acesse o painel do n8n em http://localhost:5678 (ou https://<SUBDOMAIN>.<DOMAIN_NAME> se configurado).
 
-   ```bash
-   docker-compose up -d
-   ```
+Crie uma credencial do tipo Telegram:
 
-2. Acesse o painel do n8n em `http://localhost:5678` (ou `https://<SUBDOMAIN>.<DOMAIN_NAME>` se configurado).
+Token: fornecido pelo @BotFather
 
-3. Crie uma credencial do tipo **Telegram**:
+Nome da credencial: Telegram account (deve coincidir com o nome usado no workflow)
 
-   - Token: fornecido pelo @BotFather
-   - Nome da credencial: `Telegram account` (deve coincidir com o nome usado no workflow)
+Importe o workflow:
 
-4. Importe o workflow:
+Clique em + > Importar > Importar de arquivo
 
-   - Clique em **+** > **Importar** > **Importar de arquivo**
-   - Selecione `workflows/check-links-telegram.json`
+Selecione workflows/check-links-telegram.json
 
-5. Salve e **ative** o workflow.
+Salve e ative o workflow.
 
-## 📝 Estrutura do Projeto
-
-```
+📝 Estrutura do Projeto
+pgsql
+Copiar código
 .
 ├── docker-compose.yml              # Definição do serviço n8n
 ├── sample.env                      # Exemplo de variáveis de ambiente
@@ -66,30 +76,22 @@ Este repositório contém um tutorial para o canal Código Fonte TV que mostra c
 │   └── meus-links.txt              # Arquivo com as URLs a monitorar
 └── workflows/
     └── check-links-telegram.json   # Workflow exportado do n8n
-```
+📊 Uso
+O workflow é executado a cada minuto (configurado no node Cron).
 
-## 📊 Uso
+Se algum link retornar statusCode diferente de 200, uma mensagem de alerta é enviada para o chat do Telegram configurado.
 
-- O workflow é executado a cada minuto (configurado no node Cron).
-- Se algum link retornar `statusCode` diferente de 200, uma mensagem de alerta é enviada para o chat do Telegram configurado.
-- Logs podem ser visualizados com:
+Logs podem ser visualizados com:
 
-  ```bash
-  docker-compose logs -f n8n
-  ```
+bash
+Copiar código
+docker-compose logs -f n8n
+🌐 Hospedagem Recomendada
+Para um ambiente de produção mais estável e seguro, recomendo hospedar o n8n em um VPS.
 
-## 🌐 Hospedagem Recomendada
+O Código Fonte TV sugere a Hostinger, que possui planos de VPS já com n8n pré-instalado.
 
-Para um ambiente de produção mais estável e seguro, recomendamos hospedar o n8n em um VPS da Hostinger.
+Use o cupom CODIGOFONTE para desconto.
 
-- A Hostinger tem um plano de VPS já com o n8n pré-instalado, facilitando a configuração.
-- Aproveite **nosso desconto** em qualquer plano de VPS usando o cupom `CODIGOFONTE` no checkout.
-- Link: https://codigofonte.click/hostingern8n
+Link: https://codigofonte.click/hostingern8n
 
-## 🤝 Contribuições
-
-Contribuições são bem-vindas! Abra uma issue ou envie um pull request.
-
----
-
-Feito com ❤️ pelo Código Fonte TV.
