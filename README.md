@@ -39,9 +39,14 @@ Durante o estudo foram abordados:
 ## 📝 Estrutura do Projeto
 
 
-├── docker-compose.yml              # Definição do serviço n8n
+├── docker-compose.yml  # Definição do serviço n8n
+
 ├── sample.env                      # Exemplo de variáveis de ambiente
+
 ├── data/
+
 │   └── meus-links.txt              # Arquivo com as URLs a monitorar
+
 └── workflows/
+
     └── check-links-telegram.json   # Workflow exportado do n8n
